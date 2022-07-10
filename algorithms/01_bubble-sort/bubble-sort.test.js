@@ -11,7 +11,6 @@
 */
 
 function bubbleSort(nums) {
-  // code goes here
   let didSwap = false;
   let length = nums.length;
 
