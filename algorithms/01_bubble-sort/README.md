@@ -20,12 +20,13 @@ index's. Continue looping through until all values are in ascending order.
 
 - If the algorithm includes (or could include) in its description a phrase similar to "continue until" then that might be a clue to use a `while` loop, which also then means you need to keep track of a certain value. That value would tell the `while` loop it can stop running.
 - Repeating a process _until_ a certain condition is met could also indicate the use of **_recursion_**.
+- If you're going to have to **_swap_** values in an array then you'll probably need either a temporary placeholder (as done in the provided solution), or use an array destructing technique (as I did in my solution).
 
 ---
 
 ## BIG-O:
 
-### TIME COMPLEXITY:
+### COMPUTATIONAL COMPLEXITY - TIME:
 
 #### \- BEST CASE:
 
@@ -35,20 +36,25 @@ index's. Continue looping through until all values are in ascending order.
 #### \- WORST CASE:
 
 - It's a backward sorted array. You'd have to sweep it by length - 1, and every sweep goes through the array by one less amount each time. This will grow exponentially as the list gets bigger.
-- **O(n<sup>2</sup>) - EXPONENTIAL**
+- **O(n<sup>2</sup>) - QUADRATIC (EXPONENTIAL)**
 
 #### \- AVERAGE CASE:
 
 - Some numbers are in order, some are not. The amount of comparisons and swaps would grow exponentially.
-- **O(n<sup>2</sup>) - EXPONENTIAL**
+- **O(n<sup>2</sup>) - QUADRATIC (EXPONENTIAL)**
 
-### SPATIAL COMPLEXITY
+### SPATIAL COMPLEXITY - RAM/DISK SPACE:
 
 - We're operating on the array itself and not creating anything else in memory.
 - Because we are operating on the array itself, we'd say this sort is destructive.
 - **O(1) - CONSTANT**
 
-### STABILITY
+### DESTRUCTIVE:
+
+- Does it mutate the original input (the array)?
+- **YES** - we're operating on the array itself.
+
+### STABILITY:
 
 - To be considered a **_stable sort_**, the sort must guarantee that if two things are **_equal_** that that they stay in their original order.
 - **YES** - it'll guarantee that equivalent items come back in the order they started in.
