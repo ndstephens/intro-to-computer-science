@@ -4,6 +4,10 @@ Bubble Sort works by comparing two adjacent numbers next to each other and then
 swapping their places if the smaller index's value is larger than the larger
 index's. Continue looping through until all values are in ascending order.
 
+## WHEN IS IT USEFUL:
+
+Pretty much never. It's primarily a teaching tool.
+
 ## NOTES:
 
 - It's called "Bubble Sort" b/c the biggest elements bubble to the last spots.
@@ -45,8 +49,7 @@ index's. Continue looping through until all values are in ascending order.
 
 ### SPATIAL COMPLEXITY - RAM/DISK SPACE:
 
-- We're operating on the array itself and not creating anything else in memory.
-- Because we are operating on the array itself, we'd say this sort is destructive.
+- We're operating on the array itself and not creating any new arrays in memory.
 - **O(1) - CONSTANT**
 
 ### DESTRUCTIVE:
