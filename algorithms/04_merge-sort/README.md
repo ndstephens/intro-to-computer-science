@@ -10,8 +10,9 @@ Break an array down into lists of 1 and then sort them as you build it back up.
 
 ## WHEN IS IT USEFUL:
 
-When you're not sure how unsorted your list will be. The Big-O is the same whether the list is already sorted, reverse-sorted, or anything in between.
-
+- When you're not sure how unsorted your list will be. The Big-O is the same whether the list is already sorted, reverse-sorted, or anything in between.
+- It's stable and its average case scenario is really good.
+  - It's the primary `sort` method used by most/all browser JS engines.
 - Time Complexity is `log-n`, but Space Complexity can get high. So if storage restraints are a concern it may not be the best approach.
 - If you know your list will already be mostly sorted then go with Insertion Sort instead.
 
