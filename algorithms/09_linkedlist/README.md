@@ -11,12 +11,22 @@ LinkedList is made of a bunch of nodes that point to the next one in the list. E
 
 ## NOTES:
 
-- Don't forget to keep track of the `length`. You update it manually.
-- Also need to manually keep track of the `head` and `tail`.
+- You'll create a `LinkedList` and a `Node` class.
+  - `LinkedList` has the properties:
+    - `Head` (points to a `Node`)
+    - `Tail` (points to a `Node`)
+    - `Length`
+  - `Node` has the properties:
+    - `Value`
+    - `Next` (points to another `Node`)
+- You will need to manually update these properties.
+- Since `head` and `tail` reference Nodes you will need to manually update their `next` property, and possibly their `value` (depending on the requirements).
 
 ### TRICKS:
 
-- Reuse methods, such as `pop`, within other methods if possible.
+- Reuse methods within other methods if possible.
+  - `pop` is a specific form of `delete`...so have `pop` use `delete`.
+  - just like how `get` is specific and can use `find` within it.
 - Create a `find` method since insertions and deletions both require a lookup.
   - Can maybe create a `collapse` method as well.
 - When creating a method often you should:
