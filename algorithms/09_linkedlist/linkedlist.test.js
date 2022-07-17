@@ -31,51 +31,92 @@ class LinkedList {
   }
   push(value) {
     const node = new Node(value);
-    this.length++;
+    // if no head, this is the head
     if (!this.head) {
       this.head = node;
     } else {
+      // if there's a head then there's a tail...
+      // have current tail point to this new node
       this.tail.next = node;
     }
+    // make this new node the tail
     this.tail = node;
+    // increase the length
+    this.length++;
   }
   pop() {
-    return this.delete(this.length - 1);
+    // if no length then nothing to pop
+    if (!this.length) return undefined;
+    // if length is 1 then pop will erase the entire list
+    if (this.length === 1) {
+      const value = this.head.value;
+      this.head = null;
+      this.tail = null;
+      this.length = 0;
+      return value;
+    }
+    // Otherwise...
+    // grab the last node (the tail)
+    const oldTail = this.tail;
+    // find the node immediately before the current tail
+    const newTail = this._find(this.length - 2);
+    // set the tail to the new tail node
+    this.tail = newTail;
+    // set its "next" value to "null" (since it's the tail)
+    this.tail.next = null;
+    // drop length by 1
+    this.length--;
+    // return the value of the removed node
+    return oldTail.value;
   }
   _find(index) {
-    if (index >= this.length) return null;
-    let current = this.head;
-    for (let i = 0; i < index; i++) {
-      current = current.next;
+    // exit early
+    if (index >= this.length) return undefined;
+    // if index = 0 then the loop won't run and the head will be returned
+    let node = this.head;
+    for (let i = 1; i <= index; i++) {
+      node = node.next;
     }
-
-    return current;
+    return node;
   }
   get(index) {
     const node = this._find(index);
-    if (!node) return void 0;
+    if (!node) return undefined;
     return node.value;
   }
   delete(index) {
+    // exit early
+    if (index >= this.length) return undefined;
+    // if it's the tail
+    if (index === this.length - 1) {
+      this.pop();
+      return;
+    }
+    // if it's the head
     if (index === 0) {
-      const head = this.head;
-      if (head) {
-        this.head = head.next;
-      } else {
-        this.head = null;
-        this.tail = null;
+      // i think this case is already covered when checking the tail above...
+      if (this.length === 1) {
+        this.pop();
       }
+      // grab current head
+      const head = this.head;
+      // make the head reference the next node in the list
+      this.head = head.next;
+      // shorten the length by 1
       this.length--;
       return head.value;
     }
-
-    const node = this._find(index - 1);
-    const excise = node.next;
-    if (!excise) return null;
-    node.next = excise.next;
-    if (!node.next) this.tail = node.next;
+    // Everything else...
+    // find node before the one you want to delete
+    const priorNode = this._find(index - 1);
+    // grab the node to delete
+    const nodeToDelete = priorNode.next;
+    // collapse the list
+    priorNode.next = nodeToDelete.next;
+    // shorten the length by 1
     this.length--;
-    return excise.value;
+    // return deleted node's value
+    return nodeToDelete.value;
   }
 }
 
@@ -88,7 +129,7 @@ class Node {
 
 // unit tests
 // do not modify the below code
-describe.skip('LinkedList', function () {
+describe('LinkedList', function () {
   const range = (length) =>
     Array.apply(null, { length: length }).map(Number.call, Number);
   const abcRange = (length) =>
