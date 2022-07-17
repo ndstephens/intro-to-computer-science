@@ -19,14 +19,18 @@
 
 ## NOTES:
 
-- Don't forget to keep track of the `length`. You update it manually.
+- You'll create an `ArrayList` class. It has the properties:
+  - `Data` (an object that represents the "array")
+  - `Length`
+- You will need to manually update these properties.
 
 ### TRICKS:
 
 - Put all the data onto a `data` property, not directly on the class itself.
-- Reuse methods, such as `pop`, within other methods if possible.
-- Not a bad idea to create a `collapse` function like in the solution.
-- If this was an interview there should be more error checking (make sure values exist, otherwise undefined or an Error)
+- Reuse methods within other methods if possible.
+  - use `delete` with `pop`, since `pop` is just a specific usage of `delete`.
+  - `delete` can use `get` since `get` also includes some error checking.
+  - `delete` can also use the `_collapse` method.
 
 ### CLUES:
 

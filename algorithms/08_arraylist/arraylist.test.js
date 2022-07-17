@@ -27,22 +27,27 @@ class ArrayList {
     this.length++;
   }
   pop() {
-    const item = this.data[this.length - 1];
+    return this.delete(this.length - 1);
+  }
+  get(index) {
+    if (index >= this.length) return undefined;
+    const item = this.data[index];
+    return item;
+  }
+  delete(index) {
+    const item = this.get(index);
+    if (!item) {
+      return undefined;
+    }
+    this._collapse(index);
     delete this.data[this.length - 1];
     this.length--;
     return item;
   }
-  get(index) {
-    return this.data[index];
-  }
-  delete(index) {
-    const item = this.data[index];
+  _collapse(index) {
     for (let i = index; i < this.length - 1; i++) {
       this.data[i] = this.data[i + 1];
     }
-    delete this.data[this.length - 1];
-    this.length--;
-    return item;
   }
 }
 
