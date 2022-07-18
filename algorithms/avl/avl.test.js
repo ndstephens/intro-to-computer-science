@@ -18,15 +18,143 @@
   value - integer - the value being store in the tree
   left  - Node    - the subtree containing Node's with values less than the current Node's value
   right - Node    - the subtree containing Node's with values greater than the current Node's value
-
 */
 
 class Tree {
-  // code goes here
+  constructor() {
+    this.root = null;
+  }
+  add(value) {
+    if (!this.root) {
+      this.root = new Node(value);
+    } else {
+      this.root.add(value);
+    }
+    return this;
+  }
+  toObject() {
+    return this.root;
+  }
 }
 
+/*
+Get the left height and the right height
+  Whichever is bigger is a node's "height"
+*/
+
 class Node {
-  // code also goes here
+  constructor(value) {
+    this.value = value;
+    this.left = null;
+    this.right = null;
+    this.height = 1;
+  }
+  // the "add" method is recursive
+  add(value) {
+    if (value <= this.value) {
+      // go left
+      if (!this.left) {
+        this.left = new Node(value);
+      } else {
+        this.left.add(value);
+      }
+    } else {
+      // go right
+      if (!this.right) {
+        this.right = new Node(value);
+      } else {
+        this.right.add(value);
+      }
+    }
+    // have to update the height calculation after every addition of a new node
+    this._updateHeight();
+    // also need to check the balance
+    this.balance();
+  }
+  _updateHeight() {
+    const leftHeight = this.left?.height || 0;
+    const rightHeight = this.right?.height || 0;
+    if (!leftHeight && !rightHeight) {
+      this.height = 1;
+    } else if (leftHeight > rightHeight) {
+      this.height = this.left.height + 1;
+    } else if (rightHeight > leftHeight) {
+      this.height = this.right.height + 1;
+    }
+  }
+  // the following I mostly copied from the solution, except for the usage of the _updateHeight function
+  // the "balance" method I already mostly figured out on my own
+  // but the rotateRR and LL are basically just copying instructions...very difficult to figure out on your own
+  balance() {
+    const leftHeight = this.left?.height || 0;
+    const rightHeight = this.right?.height || 0;
+
+    // If balanced do nothing, otherwise...
+    // Do you need a single or double rotation?
+    //   Need to check balance of heavy-side child node
+    //     It should be balanced or heavy on the same side
+    //   If double, first rotate the child then rotate self
+    // You always rotate the heavy side
+    //   ie. RIGHT-HEAVY => RIGHT-ROTATION
+
+    if (leftHeight > rightHeight + 1) {
+      // SELF is LEFT-HEAVY so do a LEFT-ROTATION
+      // ...first check balance of LEFT-CHILD (this.left) (the heavy side)
+      const leftLeftHeight = this.left.left?.height || 0;
+      const leftRightHeight = this.left.right?.height || 0;
+      // LEFT-CHILD should be balanced or LEFT-HEAVY, otherwise...
+      if (leftRightHeight > leftLeftHeight) {
+        // it's RIGHT-HEAVY so do a RIGHT-ROTATION of "this.left"
+        // double-rotation
+        this.left.rotateRR();
+      }
+      // LEFT-ROTATION of SELF
+      this.rotateLL();
+    } else if (rightHeight > leftHeight + 1) {
+      // SELF is RIGHT-HEAVY so do a RIGHT-ROTATION
+      // ...first check balance of RIGHT-CHILD (this.right) (the heavy side)
+      const rightLeftHeight = this.right.left?.height || 0;
+      const rightRightHeight = this.right.right?.height || 0;
+      // RIGHT-CHILD should be balanced or RIGHT-HEAVY, otherwise...
+      if (rightLeftHeight > rightRightHeight) {
+        // it's LEFT-HEAVY so do a LEFT-ROTATION of "this.right"
+        // double-rotation
+        this.right.rotateLL();
+      }
+      // RIGHT-ROTATION of SELF
+      this.rotateRR();
+    }
+  }
+  rotateRR() {
+    const valueBefore = this.value;
+    const leftBefore = this.left;
+    this.value = this.right.value;
+    this.left = this.right;
+    this.right = this.right.right;
+    this.left.right = this.left.left;
+    this.left.left = leftBefore;
+    this.left.value = valueBefore;
+    // update height of LEFT-CHILD and SELF
+    // this.left was this.right before the rotation (the one that got rotated)
+    // must start with the child-height to get the correct self-height
+    this.left._updateHeight();
+    this._updateHeight();
+  }
+  rotateLL() {
+    const valueBefore = this.value;
+    const rightBefore = this.right;
+    this.value = this.left.value;
+    this.right = this.left;
+    this.left = this.left.left;
+    this.right.left = this.right.right;
+    this.right.right = rightBefore;
+    this.right.value = valueBefore;
+    // update height of RIGHT-CHILD and SELF
+    // this.right was this.left before the rotation (the one that got rotated)
+    // must start with the child-height to get the correct self-height
+    this.right._updateHeight();
+    this._updateHeight();
+  }
 }
 
 // unit tests
