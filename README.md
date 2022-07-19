@@ -1,7 +1,7 @@
 <h1 align="center">Complete Intro to Computer Science: Algorithms and Data Structures</h1> <br>
 
 <p align="center">
- As taught by Brian Holt for Frontend Masters
+ Taught by Brian Holt for Frontend Masters
 </p>
 
 - [See the course website][site]
@@ -11,6 +11,8 @@
 ## My Notes - Nate Stephens
 
 I cloned the original repo and have modified it for my own note taking.
+
+[VISUALGO.net](https://www.visualgo.net/en) is a great website for explaining and visualizing algorithms and data structures.
 
 ## License (per original repo)
 
