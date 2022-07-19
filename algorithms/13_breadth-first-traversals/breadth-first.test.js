@@ -1,5 +1,16 @@
+// I like his solution a bit better...it's cleaner and more clear
 const breadthFirstTraverse = (queue, array) => {
-  // fill code in here
+  while (queue.length) {
+    array.push(queue[0].value);
+    if (queue[0].left) {
+      queue.push(queue[0].left);
+    }
+    if (queue[0].right) {
+      queue.push(queue[0].right);
+    }
+    queue.shift();
+  }
+  return array;
 };
 
 // unit tests
