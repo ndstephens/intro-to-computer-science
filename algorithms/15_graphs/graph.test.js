@@ -26,12 +26,39 @@
 const { getUser } = require('./jobs');
 
 const findMostCommonTitle = (myId, degreesOfSeparation) => {
-  // code goes here
+  let queue = [myId];
+  const seenIds = new Set(queue);
+  let jobs = {};
+
+  for (let i = 0; i <= degreesOfSeparation; i++) {
+    const nextQueue = [];
+    while (queue.length) {
+      // get user object
+      const user = getUser(queue.shift());
+      // tally the jobs
+      jobs[user.title] = (jobs[user.title] || 0) + 1;
+      // filter ids already seen
+      user.connections.forEach((id) => {
+        if (!seenIds.has(id)) {
+          // add to next queue if not seen yet
+          nextQueue.push(id);
+        }
+        // add to seen list
+        seenIds.add(id);
+      });
+    }
+    queue = nextQueue;
+  }
+
+  // find most common job title
+  const jobsSorted = Object.entries(jobs).sort((a, b) => b[1] - a[1]);
+
+  return jobsSorted[0][0];
 };
 
 // unit tests
 // do not modify the below code
-describe.skip('findMostCommonTitle', function () {
+describe('findMostCommonTitle', function () {
   // the getUser function and data comes from this CodePen: https://codepen.io/btholt/pen/NXJGwa?editors=0010
   test('user 30 with 2 degrees of separation', () => {
     expect(findMostCommonTitle(30, 2)).toBe('Librarian');
@@ -48,7 +75,7 @@ describe.skip('findMostCommonTitle', function () {
   });
 });
 
-describe.skip('extra credit', function () {
+describe('extra credit', function () {
   test("user 1 with 7 degrees of separation – this will traverse every user that's followed by someone else. five users are unfollowed", () => {
     expect(findMostCommonTitle(1, 7)).toBe('Geological Engineer');
   });
